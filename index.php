@@ -11,6 +11,10 @@ $temperature_current = round($forcast->currently->temperature);
 $summery_current = $forcast->currently->summary;
 $windSpeed_current = round($forcast->currently->windSpeed);
 $humidity_current = $forcast->currently->humidity*100;
+
+//Set time zone based on locattion searched
+date_default_timezone_set($forecast->timezone);
+
 ?>
 
 <!doctype html>
@@ -38,8 +42,25 @@ $humidity_current = $forcast->currently->humidity*100;
 </div>
 
 <ul class="list-group"style="margin:0 auto; max-width: 320px;">
-  <li class="list-group-item">Themperature Goes here!</li>
 
+<?php
+//start the foreach loop to get the hourly forcast
+foreach($forcast->hourly->data as $hour):
+
+?>
+  <li class="list-group-item d-flex justify-content-between">
+  <p class="lead m-0">
+  <?php echo date("g a",$hour->time); ?>
+  </p>
+  <p class="lead m-0">
+  <?php echo round($hour->temperature); ?>&deg;
+  </p>
+  
+  </li>
+<?php 
+//end of foreach loop 
+endforeach;
+?>
 </ul>
 </main>
   
